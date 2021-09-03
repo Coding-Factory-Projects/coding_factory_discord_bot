@@ -5,7 +5,7 @@ import { getCommands, initializeCommands } from "./deploy-commands";
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 const availableCommands = getCommands()
-initializeCommands(Array.from(availableCommands.values()));
+initializeCommands(availableCommands);
 
 client.on("ready", () => {
 	console.log("The discord bot is ready");
