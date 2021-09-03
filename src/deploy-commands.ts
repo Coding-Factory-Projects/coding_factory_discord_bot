@@ -8,15 +8,18 @@ import { ICommand } from "ICommand";
 
 const rest = new REST({ version: "9" }).setToken(token);
 
-const initializeCommands = async () => {
-	try {
-    const commandFiles = readdirSync(resolve(__dirname, "commands")).filter(file => file.endsWith(".js"))
-    const commands: ICommand[] = []
-    for(const file of commandFiles) {
-      const { default: command } = await import(`./commands/${file}`)
-      commands.push(command)
-    }
+function getCommands(): Map<string, ICommand> {
+	const commandFiles = readdirSync(resolve(__dirname, "commands")).filter(file => file.endsWith(".js"))
+	const commands: Map<string, ICommand> = new Map();
+	for(const file of commandFiles) {
+		const { default: command } = require(`./commands/${file}`);
+		commands.set(command.name, command);
+	}
+	return commands;
+}
 
+const initializeCommands = async (commands: ICommand[]) => {
+	try {
     const buildedCommands = commands.map(command => command.commandBuilder.toJSON())
 		await rest.put(
 			Routes.applicationGuildCommands(clientId, guildId),
@@ -29,4 +32,4 @@ const initializeCommands = async () => {
 	}
 };
 
-export { initializeCommands };
+export { getCommands, initializeCommands };

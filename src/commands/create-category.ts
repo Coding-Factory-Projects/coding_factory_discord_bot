@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageComponentInteraction } from "discord.js";
 import { ICommand } from "ICommand";
 
 const createCategoryCommand: ICommand = {
@@ -6,8 +7,9 @@ const createCategoryCommand: ICommand = {
   commandBuilder: new SlashCommandBuilder()
     .setName("createcategory")
     .setDescription("Create a category"),
-  execute: (args: Map<string, string>) => {
+  execute: async (interaction: MessageComponentInteraction, args: Map<string, string>) => {
     console.log(args);
+    await interaction.reply("Pong !")
   }
 }
 

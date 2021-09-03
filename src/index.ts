@@ -1,10 +1,10 @@
 import { Client, Intents } from "discord.js";
 import { token } from "./configs/discord-config.json";
-import { initializeCommands } from "./deploy-commands";
+import { getCommands, initializeCommands } from "./deploy-commands";
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-initializeCommands()
+const availableCommands = getCommands()
 
 client.on("ready", () => {
 	console.log("The discord bot is ready");
@@ -15,9 +15,11 @@ client.on('interactionCreate', async interaction => {
 
 	const { commandName } = interaction;
 
-	if (commandName === 'createcategory') {
-		await interaction.reply('Pong!');
-	}
+	const command = availableCommands.get(commandName);
+
+	if (!command) return;
+	
+	command.execute(interaction, new Map())
 });
 
 client.login(token);
