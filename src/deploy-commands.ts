@@ -18,9 +18,9 @@ function getCommands(): Map<string, ICommand> {
 	return commands;
 }
 
-const initializeCommands = async (commands: ICommand[]) => {
+const initializeCommands = async (commands: Map<string, ICommand>) => {
 	try {
-    const buildedCommands = commands.map(command => command.commandBuilder.toJSON())
+    const buildedCommands = Array.from(commands.values()).map(command => command.commandBuilder.toJSON())
 		await rest.put(
 			Routes.applicationGuildCommands(clientId, guildId),
 			{ body: buildedCommands },
