@@ -1,0 +1,54 @@
+{
+  "roles": [
+    {
+      "id": "882994244774658118",
+      "role": "M2 Gaming"
+    }
+  ],
+  "channels": [
+    {
+      "name": "general",
+      "type": "text"
+    },
+    {
+      "name": "Classroom",
+      "type": "voice"
+    },
+    {
+      "name": "Presentation",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 1",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 2",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 3",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 4",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 5",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 6",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 7",
+      "type": "voice"
+    },
+    {
+      "name": "Groupe 8",
+      "type": "voice"
+    },
+  ]
+}
