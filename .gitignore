@@ -4,4 +4,7 @@
 node_modules/
 dist/
 
+# Excluding the discord config file
+discord-config.json
+
 yarn-*.log
