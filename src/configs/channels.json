@@ -1,4 +1,6 @@
 {
+  "everyoneRoleId": "882991228034117652",
+  "productOwnersRoleId": "882994729841721344",
   "roles": [
     {
       "id": "882994244774658118",
@@ -49,6 +51,6 @@
     {
       "name": "Groupe 8",
       "type": "voice"
-    },
+    }
   ]
 }

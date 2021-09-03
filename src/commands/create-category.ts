@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageComponentInteraction } from "discord.js";
+import { MessageComponentInteraction, Permissions } from "discord.js";
 import { ICommand } from "ICommand";
-import { roles, channels } from "./../configs/channels.json";
+import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../configs/channels.json";
 
 const createCategoryCommand: ICommand = {
   name: "createcategory",
@@ -13,7 +13,23 @@ const createCategoryCommand: ICommand = {
     try {
       for(const role of roles) {
         // Create the category
-        const createdCategory = await interaction.guild.channels.create(role.role, { type: 4 });
+        const createdCategory = await interaction.guild.channels.create(role.role, {
+          type: 4,
+          permissionOverwrites: [
+            {
+              id: everyoneRoleId,
+              deny: [Permissions.FLAGS.VIEW_CHANNEL],
+            },
+            {
+              id: productOwnersRoleId,
+              allow: [Permissions.FLAGS.VIEW_CHANNEL],
+            },
+            {
+              id: role.id,
+              allow: [Permissions.FLAGS.VIEW_CHANNEL],
+            }
+          ]
+        });
         
         // Create all the channels in the category
         for(const channel of channels) {
