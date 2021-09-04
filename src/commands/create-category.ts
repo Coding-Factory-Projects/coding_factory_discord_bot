@@ -6,8 +6,8 @@ import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../confi
 const createCategoryCommand: ICommand = {
   name: "createcategory",
   commandBuilder: new SlashCommandBuilder()
-    .setName("createcategory")
-    .setDescription("Create a category"),
+    .setName("createcategories")
+    .setDescription("Crée la catégorie de chaque rôle ainsi que tous leurs canaux"),
   execute: async (interaction: MessageComponentInteraction) => {
     await interaction.reply("Création des channels...");
     try {
