@@ -16,8 +16,8 @@ client.on('interactionCreate', async interaction => {
 	const command = availableCommands.get(commandName);
 
 	if (!command) return;
-	
-	command.execute(interaction, new Map())
+
+	command.execute(interaction)
 });
 
 client.login(token);

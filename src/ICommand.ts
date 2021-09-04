@@ -3,6 +3,6 @@ import { Interaction } from "discord.js";
 
 export interface ICommand {
   name: string
-  commandBuilder: SlashCommandBuilder,
-  execute: (interaction: Interaction, args: Map<string, string>) => void
+  commandBuilder: SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">,
+  execute: (interaction: Interaction) => void
 }

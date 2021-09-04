@@ -8,7 +8,7 @@ const createCategoryCommand: ICommand = {
   commandBuilder: new SlashCommandBuilder()
     .setName("createcategory")
     .setDescription("Create a category"),
-  execute: async (interaction: MessageComponentInteraction, args: Map<string, string>) => {
+  execute: async (interaction: MessageComponentInteraction) => {
     await interaction.reply("Création des channels...");
     try {
       for(const role of roles) {
