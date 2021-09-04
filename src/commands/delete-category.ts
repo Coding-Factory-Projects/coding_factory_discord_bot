@@ -13,13 +13,11 @@ const deleteCategoryCommand: ICommand = {
         .setDescription("L'identifiant de la catégorie à supprimer").setRequired(true)
     ),
   execute: async (interaction: CommandInteraction) => {
-    const category = interaction.options.getString("channel-id");
-    if (!category) {
-      await interaction.reply(`Veuillez renseigner la catégorie à supprimer`)  
-      return
-    }
+    const categoryId = interaction.options.getString("channel-id");
     
-    await interaction.reply(`Suppression de la catégorie ${category}`)
+    // TODO: Delete the category and it's channels
+    
+    await interaction.reply(`Suppression de la catégorie ${categoryId}`)
   }
 }
 
