@@ -1,7 +1,16 @@
+import { config } from "dotenv";
 import { createLogger, transports, format } from "winston";
+import { ConsoleTransportInstance, FileTransportInstance } from "winston/lib/winston/transports";
 import { logFormat } from "./log-format";
-import {  } from "./../../package.json";
 const { combine, timestamp, label, colorize } = format;
+
+let loggerTransports: Array<FileTransportInstance | ConsoleTransportInstance> = [
+  new transports.File({ filename: 'logs/error.log', level: 'error' }),
+  new transports.File({ filename: 'logs/combined.log' }),
+];
+
+if (process.env.NODE_ENV !== "production")
+  loggerTransports.push(new transports.Console());
 
 const logger = createLogger({
   format: combine(
@@ -10,11 +19,7 @@ const logger = createLogger({
     logFormat,
     colorize({ all: true, colors: { info: "blue", error: "red" } })
   ),
-  transports: [
-    new transports.Console(),
-    new transports.File({ filename: 'logs/error.log', level: 'error' }),
-    new transports.File({ filename: 'logs/combined.log' }),
-  ]
+  transports: loggerTransports
 });
 
 export {
