@@ -14,10 +14,18 @@ const deleteCategoryCommand: ICommand = {
     ),
   execute: async (interaction: CommandInteraction) => {
     const categoryId = interaction.options.getString("channel-id");
+
+    const category = await interaction.guild.channels.fetch(categoryId);
     
-    // TODO: Delete the category and it's channels
+    const categoryChannels = interaction.guild.channels.cache.filter(channel => channel.parentId === category.id);
     
-    await interaction.reply(`Suppression de la catégorie ${categoryId}`)
+    for (const channel of categoryChannels.values()) {
+      await channel.delete();
+    }
+
+    await category.delete();
+    
+    await interaction.reply(`Suppression de la catégorie ${category.name}`);
   }
 }
 
