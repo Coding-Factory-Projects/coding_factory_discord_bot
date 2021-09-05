@@ -3,6 +3,7 @@
 
 node_modules/
 dist/
+logs/
 
 # Excluding the discord config file
 discord-config.json
