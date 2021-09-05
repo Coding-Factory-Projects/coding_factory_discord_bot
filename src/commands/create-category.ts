@@ -4,7 +4,7 @@ import { ICommand } from "ICommand";
 import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../configs/channels.json";
 
 const createCategoryCommand: ICommand = {
-  name: "createcategory",
+  name: "createcategories",
   commandBuilder: new SlashCommandBuilder()
     .setName("createcategories")
     .setDescription("Crée la catégorie de chaque rôle ainsi que tous leurs canaux"),
