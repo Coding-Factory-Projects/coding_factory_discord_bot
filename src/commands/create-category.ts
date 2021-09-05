@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageComponentInteraction, Permissions } from "discord.js";
 import { ICommand } from "ICommand";
-import { logger } from "loggers/logger";
+import { logger } from "./../loggers/logger";
 import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../configs/channels.json";
 
 const createCategoryCommand: ICommand = {

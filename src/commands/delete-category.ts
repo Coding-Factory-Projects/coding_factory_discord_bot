@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { ICommand } from "ICommand";
-import { logger } from "loggers/logger";
+import { logger } from "./../loggers/logger";
 
 const deleteCategoryCommand: ICommand = {
   name: "deletecategory",
