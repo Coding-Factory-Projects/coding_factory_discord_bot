@@ -1,4 +1,3 @@
-import { config } from "dotenv";
 import { createLogger, transports, format } from "winston";
 import { ConsoleTransportInstance, FileTransportInstance } from "winston/lib/winston/transports";
 import { logFormat } from "./log-format";
