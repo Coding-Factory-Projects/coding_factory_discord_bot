@@ -5,4 +5,4 @@ services:
     build: .
     volumes:
       - ./src:/src/bot/src
-      - log_volume:/src/bot/logs
+      - ./logs:/src/bot/logs
