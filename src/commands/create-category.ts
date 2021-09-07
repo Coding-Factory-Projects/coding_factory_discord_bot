@@ -13,7 +13,7 @@ const createCategoryCommand: ICommand = {
     logger.info("Creating all the channels...");
     await interaction.reply("Création des channels...");
     try {
-      for(const role of roles) {
+      for (const role of roles) {
         logger.info(`Creating the category for the role: ${role.role}`);
         // Create the category
         const createdCategory = await interaction.guild.channels.create(role.role, {
@@ -30,12 +30,12 @@ const createCategoryCommand: ICommand = {
             {
               id: role.id,
               allow: [Permissions.FLAGS.VIEW_CHANNEL],
-            }
-          ]
+            },
+          ],
         });
-        
+
         // Create all the channels in the category
-        for(const channel of channels) {
+        for (const channel of channels) {
           logger.info(`Creating the channel ${channel.name} for the category`);
           if (channel.type === "text")
             await interaction.guild.channels.create(channel.name, { type: 0, parent: createdCategory.id });
@@ -44,13 +44,13 @@ const createCategoryCommand: ICommand = {
         }
         logger.info(`All the channels are created for the category ${role.role}`);
       }
-      
-      await interaction.editReply("Les catégories viennent d'être créés")
+
+      await interaction.editReply("Les catégories viennent d'être créés");
       logger.info("All the categories are now created !");
-    } catch(e) {
-      await interaction.editReply("Une erreur s'est produite !")
+    } catch (e) {
+      await interaction.editReply("Une erreur s'est produite !");
     }
-  }
-}
+  },
+};
 
 export default createCategoryCommand;

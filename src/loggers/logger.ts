@@ -3,13 +3,12 @@ import { ConsoleTransportInstance, FileTransportInstance } from "winston/lib/win
 import { logFormat } from "./log-format";
 const { combine, timestamp, label, colorize } = format;
 
-let loggerTransports: Array<FileTransportInstance | ConsoleTransportInstance> = [
-  new transports.File({ filename: 'logs/error.log', level: 'error' }),
-  new transports.File({ filename: 'logs/combined.log' }),
+const loggerTransports: Array<FileTransportInstance | ConsoleTransportInstance> = [
+  new transports.File({ filename: "logs/error.log", level: "error" }),
+  new transports.File({ filename: "logs/combined.log" }),
 ];
 
-if (process.env.NODE_ENV !== "production")
-  loggerTransports.push(new transports.Console());
+if (process.env.NODE_ENV !== "production") loggerTransports.push(new transports.Console());
 
 const logger = createLogger({
   format: combine(
@@ -18,9 +17,7 @@ const logger = createLogger({
     logFormat,
     colorize({ all: true, colors: { info: "blue", error: "red" } })
   ),
-  transports: loggerTransports
+  transports: loggerTransports,
 });
 
-export {
-  logger
-}
+export { logger };
