@@ -7,5 +7,6 @@ logs/
 
 # Excluding the discord config file
 discord-config.json
+google-config.json
 
 yarn-*.log
