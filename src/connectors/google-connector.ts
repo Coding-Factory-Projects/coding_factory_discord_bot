@@ -8,15 +8,16 @@ function createConnection() {
   return new google.auth.OAuth2(clientId, clientSecret, redirect);
 }
 
-function getConnectionUrl(auth: OAuth2Client): string {
+function getConnectionUrl(discordUserId: string, auth: OAuth2Client): string {
   return auth.generateAuthUrl({
     access_type: "offline",
     prompt: "consent",
     scope: defaultScopes,
+    state: discordUserId,
   });
 }
 
-export function getGoogleUrl(): string {
+export function createGoogleUrl(discordUserId: string): string {
   const connection = createConnection();
-  return getConnectionUrl(connection);
+  return getConnectionUrl(discordUserId, connection);
 }
