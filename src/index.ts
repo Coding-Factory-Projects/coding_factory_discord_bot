@@ -26,3 +26,5 @@ client.on("interactionCreate", async (interaction) => {
 client.on("guildMemberAdd", onUserJoinEvent);
 
 client.login(token);
+
+export { client };

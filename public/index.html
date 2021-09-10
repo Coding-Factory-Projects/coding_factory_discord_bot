@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding factory</title>
+</head>
+<body>
+  <div>
+    <p>Test</p>
+  </div>
+
+  <script>
+    async function changeUserNickname(userId) {
+      const response = await fetch(`/change-nickname?userId=${userId}`);
+      
+      if (response.ok) {
+        const json = response.json();
+        
+        // TODO: Display a success message to the user
+
+        return;
+      }
+      
+      // TODO: Show an error
+    }
+    changeUserNickname("")
+  </script>
+</body>
+</html>
