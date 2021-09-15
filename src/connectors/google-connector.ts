@@ -1,6 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
-import { clientId, clientSecret, redirect } from "./../configs/google-config.json";
+import { clientId, clientSecret, redirect } from "../configs/google-config";
 
 const defaultScopes = ["https://www.googleapis.com/auth/userinfo.email"];
 

@@ -1,9 +1,11 @@
 import * as express from "express";
 import * as path from "path";
+import * as dotenv from "dotenv";
 import { logger } from "./../loggers/logger";
-import { guildId, baseRoleId, guestRoleId } from "./../configs/discord-config.json";
-import { port } from "./../configs/server-config.json";
+import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
 import { client } from "./../index";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -36,6 +38,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
   response.json({ success: true });
 });
 
+const port = process.env.server_port || 3000;
 app.listen(port, () => {
   logger.info(`The web server started on port ${port}`);
 });
