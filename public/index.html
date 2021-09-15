@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      display: flex;
+    }
+
+    .center {
+      display: flex;
+
+      width: 50vw;
+      height: 50vh;
+
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  </style>
+
+  <title>Coding factory</title>
+</head>
+<body>
+  <div class="center">
+    <p id="message">Changement de votre rôle et nom d'utilisateur sur le serveur...</p>
+  </div>
+
+  <script>
+    const message = document.getElementById("message");
+    const params = new URLSearchParams(window.location.search);
+
+    async function changeUserStatus(userId) {
+      console.log(userId);
+      const response = await fetch(`/change-status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: userId, fullname: "Thomas Guillouët" })
+      });
+      const json = await response.json();
+      
+      if (response.ok) {
+        message.innerHTML = "Votre nom d'utilisateur et rôle viennent d'être changés sur le serveur ! <br /> Vous pouvez maintenant fermer cette page"
+        return;
+      }
+      
+      message.innerText = response.message;
+    }
+    changeUserStatus(params.get("state"))
+  </script>
+</body>
+</html>

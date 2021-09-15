@@ -3,13 +3,11 @@
     "target":"es6",
     "moduleResolution":"node",
     "module":"commonjs",
-    "declaration":false,
     "noLib":false,
     "emitDecoratorMetadata":true,
     "experimentalDecorators":true,
     "sourceMap":true,
     "pretty":true,
-    "allowUnreachableCode":true,
     "allowUnusedLabels":true,
     "noImplicitAny":true,
     "noImplicitReturns":false,
@@ -17,10 +15,11 @@
     "outDir":"dist/",
     "baseUrl":"src/",
     "listFiles":false,
-    "noEmitHelpers":true
+    "noEmitHelpers":true,
+    "resolveJsonModule": true
   },
   "include":[ 
-    "src/**/*"
+    "**/*.ts"
   ],
   "exclude":[ 
     "node_modules"
