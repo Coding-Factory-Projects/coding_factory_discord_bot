@@ -5,9 +5,7 @@ node_modules/
 dist/
 logs/
 
-# Excluding the discord config file
-discord-config.json
-google-config.json
-server-config.json
+# Excluding env files
+.env
 
 yarn-*.log

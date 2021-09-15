@@ -1,8 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { logger } from "./loggers/logger";
-
-import { clientId, guildId, token } from "./configs/discord-config.json";
+import { clientId, guildId, token } from "./configs/discord-config";
 import { availableCommands } from "./get-available-commands";
 
 const rest = new REST({ version: "9" }).setToken(token);

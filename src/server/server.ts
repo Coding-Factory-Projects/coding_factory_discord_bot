@@ -1,15 +1,21 @@
 import * as express from "express";
 import * as path from "path";
+import * as dotenv from "dotenv";
 import { logger } from "./../loggers/logger";
-import { guildId, baseRoleId, guestRoleId } from "./../configs/discord-config.json";
-import { port } from "./../configs/server-config.json";
-import { client } from "./../index";
+import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
+import client from "./../discord-client";
+import { getUserName } from "./../connectors/google-connector";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-app.get("/oauth2/redirect", (request: express.Request, response: express.Response) => {
-  response.sendFile(path.join(process.cwd(), "public", "index.html"));
+app.set("view engine", "ejs");
+
+app.get("/oauth2/redirect", async (request: express.Request, response: express.Response) => {
+  const username = await getUserName(request.query.code as string);
+  response.render("index", { username });
 });
 
 app.post("/change-status", async (request: express.Request, response: express.Response) => {
@@ -36,6 +42,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
   response.json({ success: true });
 });
 
+const port = process.env.server_port || 3000;
 app.listen(port, () => {
   logger.info(`The web server started on port ${port}`);
 });

@@ -34,11 +34,10 @@
     const params = new URLSearchParams(window.location.search);
 
     async function changeUserStatus(userId) {
-      console.log(userId);
       const response = await fetch(`/change-status`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userId, fullname: "Thomas Guillouët" })
+        body: JSON.stringify({ userId: userId, fullname: "<%= username %>" })
       });
       const json = await response.json();
       
@@ -49,6 +48,7 @@
       
       message.innerText = response.message;
     }
+
     changeUserStatus(params.get("state"))
   </script>
 </body>

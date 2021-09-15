@@ -1,10 +1,11 @@
-import { Client, Intents } from "discord.js";
 import { availableCommands } from "./get-available-commands";
-import { token } from "./configs/discord-config.json";
-import { logger } from "./loggers/logger";
 import { onUserJoinEvent } from "./guild-events/user-join-event";
+import { logger } from "./loggers/logger";
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS] });
+import * as dotenv from "dotenv";
+dotenv.config();
+
+import client from "./discord-client";
 
 client.on("ready", () => {
   logger.info("The discord bot is ready");
@@ -24,7 +25,3 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.on("guildMemberAdd", onUserJoinEvent);
-
-client.login(token);
-
-export { client };
