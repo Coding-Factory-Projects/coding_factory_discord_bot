@@ -2,6 +2,9 @@
   "name": "coding-factory-discord-bot",
   "version": "1.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "lint": "eslint src/*.ts --fix",
     "dev": "tsc-watch -p ./tsconfig.json --onSuccess \"concurrently 'node dist/index.js' 'node dist/server/server.js'\"",
