@@ -9,5 +9,5 @@ services:
       - 3000:3000
     volumes:
       - ./src:/src/bot/src
-      - ./public:/src/bot/public
+      - ./views:/src/bot/views
       - ./logs:/src/bot/logs
