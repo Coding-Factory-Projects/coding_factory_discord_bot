@@ -7,8 +7,8 @@
   },
   "scripts": {
     "lint": "eslint src/*.ts --fix",
-    "start": "concurrently 'node dist/index.js' 'node dist/server/server.js'",
-    "dev": "tsc-watch -p ./tsconfig.json --onSuccess \"concurrently 'node dist/index.js' 'node dist/server/server.js'\"",
+    "start": "node dist/index.js",
+    "dev": "tsc-watch -p ./tsconfig.json --onSuccess \"node dist/index.js\"",
     "build": "tsc -p ./tsconfig.json",
     "fix_discord_deps": "cd node_modules/@discordjs/rest && npm i --save-dev @types/node-fetch && cd ../../../",
     "test": "echo \"Error: no test specified\" && exit 1"
