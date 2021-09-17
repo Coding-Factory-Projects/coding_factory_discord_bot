@@ -38,7 +38,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
   response.json({ success: true });
 });
 
-const port = process.env.server_port || 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   logger.info(`The web server started on port ${port}`);
 });
