@@ -1,10 +1,6 @@
 import { availableCommands } from "./get-available-commands";
 import { onUserJoinEvent } from "./guild-events/user-join-event";
 import { logger } from "./loggers/logger";
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
 import client from "./discord-client";
 import "./server/server";
 
