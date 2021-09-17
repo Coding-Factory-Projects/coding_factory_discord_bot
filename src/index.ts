@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import client from "./discord-client";
+import "./server/server";
 
 client.on("ready", () => {
   logger.info("The discord bot is ready");
