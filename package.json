@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint src/*.ts --fix",
     "dev": "tsc-watch -p ./tsconfig.json --onSuccess \"concurrently 'node dist/index.js' 'node dist/server/server.js'\"",
+    "postinstall": "cd node_modules/@discordjs/rest && npm i --save-dev @types/node-fetch && cd ../../../",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
