@@ -9,6 +9,8 @@
     "lint": "eslint src/*.ts --fix",
     "dev": "tsc-watch -p ./tsconfig.json --onSuccess \"concurrently 'node dist/index.js' 'node dist/server/server.js'\"",
     "build": "tsc",
+    "heroku-prebuild": "npm run fix_discord_deps",
+    "fix_discord_deps": "cd node_modules/@discordjs/rest && npm i --save-dev @types/node-fetch && cd ../../../",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
