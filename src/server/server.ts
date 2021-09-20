@@ -6,6 +6,7 @@ import client from "./../discord-client";
 
 const app = express();
 app.use(express.json());
+app.use("/assets", express.static("assets"));
 
 app.set("view engine", "ejs");
 

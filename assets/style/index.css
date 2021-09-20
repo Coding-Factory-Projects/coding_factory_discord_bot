@@ -1,0 +1,114 @@
+@font-face {
+    font-family: "UniNeueHI";
+    src: url("../fonts/UniNeue-HeavyItalic.otf");
+}
+
+@font-face {
+    font-family: "UniNeueLight";
+    src: url("../fonts/UniNeue-Light.otf");
+}
+
+#message{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+body{
+    margin: 0;
+}
+
+.header, .footer{ 
+    display: flex;
+    background-color: #23272A;
+    color: white;
+}
+
+.header{
+    height: 100%;
+    font-family: 'UniNeueHI';
+}
+
+.footer{
+    text-align: center;
+    justify-content: center;
+}
+
+.discord-logo{
+    float : left;
+    margin: auto 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    font-family: "UniNeueLight";
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.separator{
+    background: linear-gradient(to right, #ED61FF,#CA1B47);
+    height: 4px;
+}
+#validation-icon{
+    display: none;
+}
+.show-validation{
+    animation: spin 2s, fadeInOpacity 2s;
+}
+.icon{
+    height: 100px;
+    width: 100px;
+    margin: 0 auto 0 auto;
+}
+.serv-logo {
+    align-self: flex-end;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    background-color: #D2296C;
+    transform-origin: bottom;
+    border-radius: 50%;
+}
+
+/* ANIMATIONS */
+
+.bounce-6 {
+    animation-name: bounce-6;
+    animation-timing-function: ease;
+}
+@keyframes bounce-6 {
+    0%   { transform: scale(1,1)      translateY(0); }
+    10%  { transform: scale(1.1,.9)   translateY(0); }
+    30%  { transform: scale(.9,1.1)   translateY(-50px); }
+    50%  { transform: scale(1.05,.95) translateY(0); }
+    57%  { transform: scale(1,1)      translateY(-7px); }
+    64%  { transform: scale(1,1)      translateY(0); }
+    100% { transform: scale(1,1)      translateY(0); }
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+  
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

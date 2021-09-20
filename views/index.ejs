@@ -4,34 +4,41 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../assets/favicon.ico">
+  <link rel="stylesheet" href="../assets/style/index.css">
 
-  <style>
-    body {
-      display: flex;
-    }
-
-    .center {
-      display: flex;
-
-      width: 50vw;
-      height: 50vh;
-
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-  </style>
-
-  <title>Coding factory</title>
+  <title>Coding factory - Discord</title>
 </head>
 <body>
-  <div class="center">
-    <p id="message">Changement de votre rôle et nom d'utilisateur sur le serveur...</p>
+
+  <div class="container">
+    <header>
+        <div class="header center">
+            <img class="discord-logo" height="50" width="100" src="../assets/images/discord_Logo.png"/>
+            <h1>Discord Coding Factory</h1>
+        </div>
+        <div class="separator"></div>
+    </header>
+
+    <div class="content">
+        <img id="bouncy-logo" class="serv-logo icon bounce-6" src="../assets/images/logo_bot_server.png" />
+        <img id="validation-icon" class="icon" src="../assets/images/checked128.png"/>
+        <p id="message">Changement de votre rôle et nom d'utilisateur sur le serveur...</p>
+    </div>
+
+    <footer>
+        <div class="separator"></div>
+        <div class="footer center">
+            <p> © Coding Factory - <span id="year"></span></p>
+        </div>
+    </footer>
   </div>
 
   <script>
     const message = document.getElementById("message");
     const params = new URLSearchParams(window.location.search);
+
+    document.getElementById("year").innerHTML = new Date().getFullYear();
 
     async function changeUserStatus(userId) {
       const response = await fetch(`/change-status`, {
@@ -42,6 +49,11 @@
       const json = await response.json();
       
       if (response.ok) {
+        document.getElementById("bouncy-logo").style.display = "None"
+        let validationIcon = document.getElementById("validation-icon");
+        validationIcon.style.display = "block";
+        validationIcon.classList.add("show-validation");
+
         message.innerHTML = "Votre nom d'utilisateur et rôle viennent d'être changés sur le serveur ! <br /> Vous pouvez maintenant fermer cette page"
         return;
       }
