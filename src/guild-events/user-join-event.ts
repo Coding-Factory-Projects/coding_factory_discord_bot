@@ -15,7 +15,7 @@ const onUserJoinEvent = async (newMember: GuildMember): Promise<void> => {
   const actionRow = new MessageActionRow().addComponents(messageButton);
   await channel.send({
     content:
-      "Connectez-vous avec google pour vérifier votre appartenance à l'Essiee-IT (Sans confirmation, vous resterez avec le rôle 'Guest')",
+      "Connecte-toi avec google pour vérifier votre appartenance à l'Essiee-IT (Sans confirmation, tu restera avec le rôle 'Guest')",
     components: [actionRow],
   });
 };
