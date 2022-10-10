@@ -18,6 +18,12 @@ client.on("interactionCreate", async (interaction) => {
 
   if (!command) return;
 
+  const userRoles: Map<string, unknown> = (interaction.member.roles as any).cache;
+  if (!command.roles.every((commandRoleId) => userRoles.has(commandRoleId))) {
+    await interaction.reply("Tu n'as pas les rôles requis pour lancer cette commande !");
+    return;
+  }
+
   command.execute(interaction);
 });
 

@@ -3,9 +3,11 @@ import { MessageComponentInteraction } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 import { onUserJoinEvent } from "./../guild-events/user-join-event";
+import { guestRoleId } from "./../configs/discord-config";
 
-const createCategoryCommand: ICommand = {
+const onboardCommand: ICommand = {
   name: "onboard",
+  roles: [guestRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("onboard")
     .setDescription("Envoie le même message que lorsqu'un utilisateur rejoint le serveur"),
@@ -19,4 +21,4 @@ const createCategoryCommand: ICommand = {
   },
 };
 
-export default createCategoryCommand;
+export default onboardCommand;

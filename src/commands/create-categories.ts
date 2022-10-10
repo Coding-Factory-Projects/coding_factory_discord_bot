@@ -3,12 +3,14 @@ import { MessageComponentInteraction, Permissions } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../configs/channels.json";
+import { adminRoleId } from "./../configs/discord-config";
 
 const createCategoryCommand: ICommand = {
   name: "createcategories",
+  roles: [adminRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("createcategories")
-    .setDescription("Crée la catégorie de chaque rôle ainsi que tous leurs canaux"),
+    .setDescription("Crée la catégorie de chaque rôle ainsi que tous leurs canaux (test)"),
   execute: async (interaction: MessageComponentInteraction) => {
     logger.info("Creating all the channels...");
     await interaction.reply("Création des channels...");
@@ -48,6 +50,7 @@ const createCategoryCommand: ICommand = {
       await interaction.editReply("Les catégories viennent d'être créés");
       logger.info("All the categories are now created !");
     } catch (e) {
+      logger.error(JSON.stringify(e));
       await interaction.editReply("Une erreur s'est produite !");
     }
   },

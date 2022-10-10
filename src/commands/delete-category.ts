@@ -1,10 +1,12 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { adminRoleId } from "./../configs/discord-config";
 import { CommandInteraction } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 
 const deleteCategoryCommand: ICommand = {
   name: "deletecategory",
+  roles: [adminRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("deletecategory")
     .setDescription("Supprime la catégorie spécifiée et toous les canaux contenus à l'intérieur")
