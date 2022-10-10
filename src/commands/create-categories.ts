@@ -3,9 +3,11 @@ import { MessageComponentInteraction, Permissions } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../configs/channels.json";
+import { adminRoleId } from "./../configs/discord-config";
 
 const createCategoryCommand: ICommand = {
   name: "createcategories",
+  roles: [adminRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("createcategories")
     .setDescription("Crée la catégorie de chaque rôle ainsi que tous leurs canaux (test)"),

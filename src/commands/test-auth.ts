@@ -2,9 +2,11 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { createGoogleUrl } from "./../connectors/google-connector";
 import { CommandInteraction, MessageActionRow, MessageButton } from "discord.js";
 import { ICommand } from "ICommand";
+import { adminRoleId } from "./../configs/discord-config";
 
 const testAuthCommand: ICommand = {
   name: "testauth",
+  roles: [adminRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("testauth")
     .setDescription("Permet de tester l'authentification google en dm"),
