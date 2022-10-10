@@ -8,7 +8,8 @@ const loggerTransports: Array<FileTransportInstance | ConsoleTransportInstance> 
   new transports.File({ filename: "logs/combined.log" }),
 ];
 
-if (process.env.NODE_ENV !== "production") loggerTransports.push(new transports.Console());
+// if (process.env.NODE_ENV !== "production") loggerTransports.push(new transports.Console());
+loggerTransports.push(new transports.Console());
 
 const logger = createLogger({
   format: combine(
