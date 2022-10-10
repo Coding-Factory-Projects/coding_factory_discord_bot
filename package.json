@@ -11,6 +11,7 @@
     "dev": "tsc-watch -p ./tsconfig.json --onSuccess \"npm run start\"",
     "build": "tsc -p ./tsconfig.json",
     "fix_discord_deps": "cd node_modules/@discordjs/rest && npm i --save-dev @types/node-fetch && cd ../../../",
+    "deploy__server_commands": "ts-node --require dotenv/config ./src/deploy-commands.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -28,12 +29,14 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.3.2",
+    "ts-node": "^10.9.1",
     "tsc-watch": "^4.5.0"
   }
 }
