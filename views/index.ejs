@@ -44,7 +44,7 @@
       const response = await fetch(`/change-status`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userId, fullname: "<%= username %>" })
+        body: JSON.stringify({ userId: userId, fullname: "<%= username %>", email: "<%= email %>" })
       });
       const json = await response.json();
       
