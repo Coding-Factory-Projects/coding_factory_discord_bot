@@ -26,7 +26,8 @@ const onboardCommand: ICommand = {
       const actionRow = new MessageActionRow().addComponents(messageButton);
       await interaction.reply({
         content:
-          "Connecte-toi avec google pour vérifier ton appartenance à l'Essiee-IT (Sans confirmation, tu restera avec le rôle 'Guest')",
+          "Connecte-toi avec ton mail étudiant pour avoir accès au reste du serveur (Sans confirmation, tu resteras avec le rôle 'Guest')",
+          // "Connecte-toi avec google pour vérifier ton appartenance à l'Essiee-IT (Sans confirmation, tu restera avec le rôle 'Guest')",
         components: [actionRow],
         ephemeral: true
       });
