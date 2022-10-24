@@ -1,6 +1,6 @@
 import * as express from "express";
 import { logger } from "./../loggers/logger";
-import { getUserName } from "./../connectors/google-connector";
+import { getUserInfos } from "./../connectors/google-connector";
 import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
 import client from "./../discord-client";
 
@@ -11,8 +11,8 @@ app.use("/assets", express.static("assets"));
 app.set("view engine", "ejs");
 
 app.get("/oauth2/redirect", async (request: express.Request, response: express.Response) => {
-  const username = await getUserName(request.query.code as string);
-  response.render("index", { username });
+  const { username, email } = await getUserInfos(request.query.code as string);
+  response.render("index", { username, email });
 });
 
 app.post("/change-status", async (request: express.Request, response: express.Response) => {
@@ -29,12 +29,21 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     return;
   }
 
-  const { userId, fullname } = request.body;
+  const { userId, fullname, email } = request.body;
+
+  const emailDomain = email.split("@")[1];
+  const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
+  if (isValidEmailDomain) {
+    response
+      .status(400)
+      .json({ success: false, message: "Veuillez utiliser une adresse email edu.itescia.fr ou edu.esiee-it.fr." });
+    return;
+  }
 
   const user = await guild.members.fetch(userId);
   await user.setNickname(fullname);
-  await user.roles.remove(guestRole);
   await user.roles.add(role);
+  await user.roles.remove(guestRole);
 
   response.json({ success: true });
 });

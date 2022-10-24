@@ -1,7 +1,11 @@
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
-import { logger } from "./../loggers/logger";
 import { clientId, clientSecret, redirect } from "../configs/google-config";
+
+type UserInfos = {
+  username: string;
+  email: string;
+};
 
 const defaultScopes = ["profile", "https://www.googleapis.com/auth/userinfo.email"];
 
@@ -24,11 +28,11 @@ export function createGoogleUrl(discordUserId: string): string {
   return getConnectionUrl(discordUserId, connection);
 }
 
-export async function getUserName(accessCode: string) {
+export async function getUserInfos(accessCode: string): Promise<UserInfos> {
   const token = await connection.getToken({ code: accessCode });
   connection.setCredentials(token.tokens);
-  const username = await google
+  const request = await google
     .people("v1")
-    .people.get({ resourceName: "people/me", personFields: "names", auth: connection });
-  return username.data.names[0].displayName;
+    .people.get({ resourceName: "people/me", personFields: "names,emailAddresses", auth: connection });
+  return { username: request.data.names[0].displayName, email: request.data.emailAddresses[0].value };
 }

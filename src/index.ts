@@ -3,6 +3,7 @@ import { onUserJoinEvent } from "./guild-events/user-join-event";
 import { logger } from "./loggers/logger";
 import client from "./discord-client";
 import "./server/server";
+import { GuildMemberRoleManager } from "discord.js";
 
 client.on("ready", () => {
   logger.info("The discord bot is ready");
@@ -18,8 +19,15 @@ client.on("interactionCreate", async (interaction) => {
 
   if (!command) return;
 
-  const userRoles: Map<string, unknown> = (interaction.member.roles as any).cache;
-  if (!command.roles.every((commandRoleId) => userRoles.has(commandRoleId))) {
+  // Force the command to have at leasdt one role assigned
+  if (command.roles.length === 0) {
+    await interaction.reply("Cette commande n'a pas de rôles assignés !");
+    return;
+  }
+
+  const userRoles: Map<string, unknown> = (interaction.member.roles as GuildMemberRoleManager).cache;
+  const canLaunchCommand = !command.roles.every((commandRoleId) => userRoles.has(commandRoleId));
+  if (canLaunchCommand) {
     await interaction.reply("Tu n'as pas les rôles requis pour lancer cette commande !");
     return;
   }
