@@ -7,7 +7,7 @@ import { createGoogleUrl } from "./../connectors/google-connector";
 
 const onboardCommand: ICommand = {
   name: "onboard",
-  roles: [adminRoleId],
+  roles: [guestRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("onboard")
     .setDescription("Envoie le même message que lorsqu'un utilisateur rejoint le serveur"),
