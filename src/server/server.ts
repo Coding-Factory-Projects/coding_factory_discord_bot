@@ -53,7 +53,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
 
     response.json({ success: true });
   } catch (e) {
-    response.json({ success: false, message: "Permissions insuffisantes" });
+    response.status(403).json({ success: false, message: "Permissions insuffisantes" });
   }
 });
 
