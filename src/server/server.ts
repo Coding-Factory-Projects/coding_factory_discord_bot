@@ -45,12 +45,16 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     return;
   }
 
-  const user = await guild.members.fetch(userId);
-  await user.setNickname(fullname);
-  await user.roles.add(role);
-  await user.roles.remove(guestRole);
+  try {
+    const user = await guild.members.fetch(userId);
+    await user.setNickname(fullname);
+    await user.roles.add(role);
+    await user.roles.remove(guestRole);
 
-  response.json({ success: true });
+    response.json({ success: true });
+  } catch (e) {
+    response.json({ success: false, message: "Permissions insuffisantes" });
+  }
 });
 
 const port = process.env.PORT || 3000;
