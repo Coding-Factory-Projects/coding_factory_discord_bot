@@ -33,7 +33,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
 
   const emailDomain = email.split("@")[1];
   const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
-  if (isValidEmailDomain) {
+  if (!isValidEmailDomain) {
     response
       .status(400)
       .json({ success: false, message: "Veuillez utiliser une adresse email edu.itescia.fr ou edu.esiee-it.fr." });
