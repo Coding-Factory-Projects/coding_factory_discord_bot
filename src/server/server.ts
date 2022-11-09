@@ -11,8 +11,13 @@ app.use("/assets", express.static("assets"));
 app.set("view engine", "ejs");
 
 app.get("/oauth2/redirect", async (request: express.Request, response: express.Response) => {
-  const { username, email } = await getUserInfos(request.query.code as string);
-  response.render("index", { username, email });
+  try {
+    const { username, email } = await getUserInfos(request.query.code as string);
+    response.render("index", { username, email });
+  } catch (e) {
+    logger.error(JSON.stringify(e));
+    response.render("error");
+  }
 });
 
 app.post("/change-status", async (request: express.Request, response: express.Response) => {
@@ -33,7 +38,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
 
   const emailDomain = email.split("@")[1];
   const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
-  if (isValidEmailDomain) {
+  if (!isValidEmailDomain) {
     response
       .status(400)
       .json({ success: false, message: "Veuillez utiliser une adresse email edu.itescia.fr ou edu.esiee-it.fr." });
