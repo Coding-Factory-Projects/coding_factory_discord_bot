@@ -20,6 +20,18 @@ app.get("/oauth2/redirect", async (request: express.Request, response: express.R
   }
 });
 
+app.post("/on-promotion-created", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+
+  response.status(200).json({
+    message: "La promotion a bien été créée",
+  });
+});
+
 app.post("/change-status", async (request: express.Request, response: express.Response) => {
   const guild = await client.guilds.fetch(guildId);
   if (!guild) {
