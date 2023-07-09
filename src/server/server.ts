@@ -32,6 +32,42 @@ app.post("/on-promotion-created", async (request: express.Request, response: exp
   });
 });
 
+app.post("/on-promotion-updated", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+
+  response.status(200).json({
+    message: "La promotion a bien été updated",
+  });
+});
+
+app.post("/archive-promotion", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+
+  response.status(200).json({
+    message: "La promotion a bien été archivée",
+  });
+});
+
+app.post("/next-year", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+
+  response.status(200).json({
+    message: "Le passage à la nouvelle année à été effectué",
+  });
+});
+
 app.post("/change-status", async (request: express.Request, response: express.Response) => {
   const guild = await client.guilds.fetch(guildId);
   if (!guild) {
