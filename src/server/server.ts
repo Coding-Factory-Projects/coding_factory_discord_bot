@@ -4,6 +4,7 @@ import { getUserInfos } from "./../connectors/google-connector";
 import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
 import client from "./../discord-client";
 import createCategory from "./create-category";
+import archivePromo from "./archive-promo";
 
 const app = express();
 app.use(express.json());
@@ -50,11 +51,19 @@ app.post("/on-promotion-updated", async (request: express.Request, response: exp
 });
 
 app.post("/archive-promotion", async (request: express.Request, response: express.Response) => {
+  const body = await request.body
+  const roleId = body.roleId
   const guild = await client.guilds.fetch(guildId);
   if (!guild) {
     response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
     return;
   }
+  const role = await guild.roles.fetch(roleId)
+  if (!role) {
+    response.status(404).json({ success: false, message: "Le role spécifié n'existe pas" });
+    return;
+  }
+  await archivePromo(guild,role)
 
   response.status(200).json({
     message: "La promotion a bien été archivée",
