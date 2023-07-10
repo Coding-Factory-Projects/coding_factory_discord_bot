@@ -3,6 +3,7 @@ import { logger } from "./../loggers/logger";
 import { getUserInfos } from "./../connectors/google-connector";
 import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
 import client from "./../discord-client";
+import createCategory from "./create-category";
 
 const app = express();
 app.use(express.json());
@@ -22,13 +23,17 @@ app.get("/oauth2/redirect", async (request: express.Request, response: express.R
 
 app.post("/on-promotion-created", async (request: express.Request, response: express.Response) => {
   const guild = await client.guilds.fetch(guildId);
+  const body = await request.body
+  const promotionName = body.name
   if (!guild) {
     response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
     return;
   }
+  const roleId = await createCategory(guild, promotionName)
 
   response.status(200).json({
     message: "La promotion a bien été créée",
+    roleId:roleId,
   });
 });
 
