@@ -24,17 +24,17 @@ app.get("/oauth2/redirect", async (request: express.Request, response: express.R
 
 app.post("/on-promotion-created", async (request: express.Request, response: express.Response) => {
   const guild = await client.guilds.fetch(guildId);
-  const body = await request.body
-  const promotionName = body.name
+  const body = await request.body;
+  const promotionName = body.name;
   if (!guild) {
     response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
     return;
   }
-  const roleId = await createCategory(guild, promotionName)
+  const roleId = await createCategory(guild, promotionName);
 
   response.status(200).json({
     message: "La promotion a bien été créée",
-    roleId:roleId,
+    roleId: roleId,
   });
 });
 
@@ -51,19 +51,23 @@ app.post("/on-promotion-updated", async (request: express.Request, response: exp
 });
 
 app.post("/archive-promotion", async (request: express.Request, response: express.Response) => {
-  const body = await request.body
-  const roleId = body.roleId
+  const body = await request.body;
+  logger.info(`Body ${JSON.stringify(body)}`);
+  const roleId = body.roleId;
   const guild = await client.guilds.fetch(guildId);
   if (!guild) {
+    logger.error("Guild not found");
     response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
     return;
   }
-  const role = await guild.roles.fetch(roleId)
+  const role = await guild.roles.fetch(roleId);
   if (!role) {
+    logger.error("Role not found");
     response.status(404).json({ success: false, message: "Le role spécifié n'existe pas" });
     return;
   }
-  await archivePromo(guild,role)
+  logger.info("Role found");
+  await archivePromo(guild, role);
 
   response.status(200).json({
     message: "La promotion a bien été archivée",
@@ -119,7 +123,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
   }
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.server_port || 3000;
 app.listen(port, () => {
   logger.info(`The web server started on port ${port}`);
 });
