@@ -2,11 +2,11 @@ import { Guild, Permissions } from "discord.js";
 import { logger } from "./../loggers/logger";
 import { everyoneRoleId, productOwnersRoleId, channels } from "./../configs/channels.json";
 
-const createCategory = async (guild: Guild, name: string) => {
+const createCategory = async (guild:Guild,name:string, promotionCampus:string) => {
   logger.info("Creating all the channels...");
   try {
     const role = await guild.roles.create({
-      name: name,
+      name:name + ' - ' + promotionCampus,
       hoist: true,
       reason: "import promotions",
       mentionable: true,
