@@ -4,6 +4,7 @@ import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 import { adminRoleId, guestRoleId } from "./../configs/discord-config";
 import { createGoogleUrl } from "./../connectors/google-connector";
+import { createMicrosoftUrl } from "./../connectors/microsoft-connector";
 
 const onboardCommand: ICommand = {
   name: "onboard",
@@ -20,10 +21,12 @@ const onboardCommand: ICommand = {
 
       // Generate the google url
       const googleUrl = createGoogleUrl(guildMember.user.id);
+      const microsoftUrl = createMicrosoftUrl(guildMember.user.id)
 
       // Create and send the ephemeral message
-      const messageButton = new MessageButton().setLabel("Connexion google").setStyle("LINK").setURL(googleUrl);
-      const actionRow = new MessageActionRow().addComponents(messageButton);
+      const messageButton = new MessageButton().setLabel("Connexion Google").setStyle("LINK").setURL(googleUrl);
+      const microsoftMessageButton = new MessageButton().setLabel("Connexion Microsoft").setStyle("LINK").setURL(microsoftUrl);
+      const actionRow = new MessageActionRow().addComponents(messageButton, microsoftMessageButton);
       await interaction.reply({
         content:
           "Connecte-toi avec ton mail étudiant pour avoir accès au reste du serveur (Sans confirmation, tu resteras avec le rôle 'Guest')",
