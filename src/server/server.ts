@@ -1,10 +1,10 @@
 import * as express from "express";
 import { logger } from "./../loggers/logger";
-import { getUserInfos } from "./../connectors/google-connector";
 import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
 import client from "./../discord-client";
 import archivePromo from "./archive-promo";
 import createCategory from "./create-category";
+import { getUserInfos } from "./../connectors/microsoft-connector";
 
 const app = express();
 app.use(express.json());

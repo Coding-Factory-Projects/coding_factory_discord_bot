@@ -2,8 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageButton, MessageComponentInteraction } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
-import { adminRoleId, guestRoleId } from "./../configs/discord-config";
-import { createGoogleUrl } from "./../connectors/google-connector";
+import { guestRoleId } from "./../configs/discord-config";
 import { createMicrosoftUrl } from "./../connectors/microsoft-connector";
 
 const onboardCommand: ICommand = {
@@ -20,13 +19,14 @@ const onboardCommand: ICommand = {
       const guildMember = await interaction.guild.members.fetch({ user: interaction.user });
 
       // Generate the google url
-      const googleUrl = createGoogleUrl(guildMember.user.id);
       const microsoftUrl = createMicrosoftUrl(guildMember.user.id)
 
       // Create and send the ephemeral message
-      const messageButton = new MessageButton().setLabel("Connexion Google").setStyle("LINK").setURL(googleUrl);
-      const microsoftMessageButton = new MessageButton().setLabel("Connexion Microsoft").setStyle("LINK").setURL(microsoftUrl);
-      const actionRow = new MessageActionRow().addComponents(messageButton, microsoftMessageButton);
+      const microsoftMessageButton = new MessageButton()
+        .setLabel("Connexion Microsoft")
+        .setStyle("LINK")
+        .setURL(microsoftUrl);
+      const actionRow = new MessageActionRow().addComponents(microsoftMessageButton);
       await interaction.reply({
         content:
           "Connecte-toi avec ton mail étudiant pour avoir accès au reste du serveur (Sans confirmation, tu resteras avec le rôle 'Guest')",

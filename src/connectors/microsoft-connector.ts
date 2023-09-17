@@ -7,10 +7,11 @@ type UserInfos = {
   email: string;
 };
 
-const defaultScopes = ["https://graph.microsoft.com/mail.read"];
+const defaultScopes = ["user.read", "mail.read"];
 
 export function createMicrosoftUrl(discordUserId: string): string {
-  const url = new URL("https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize")
+  const url = new URL("https://login.microsoftonline.com/common/oauth2/v2.0/authorize")
+  url.searchParams.append("response_type", "code")
   url.searchParams.append("client_id", clientId)
   url.searchParams.append("redirect_uri", redirect)
   url.searchParams.append("response_mode", "query")
@@ -21,21 +22,23 @@ export function createMicrosoftUrl(discordUserId: string): string {
 }
 
 async function getAccessToken(accessCode: string): Promise<string> {
-  const body = new FormData()
+  const body = new URLSearchParams()
   body.append("client_id", clientId)
   body.append("scope", defaultScopes.join(" "))
   body.append("code", accessCode)
   body.append("grant_type", "authorization_code")
   body.append("client_secret", clientSecret)
+  body.append("redirect_uri", redirect)
 
-  const response = await fetch("https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize", {
+  const response = await fetch("https://login.microsoftonline.com/common/oauth2/v2.0/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     body
   })
-  return (await response.json())["access_token"]
+  const tokenResponse = await response.json()
+  return tokenResponse["access_token"]
 }
 
 export async function getUserInfos(accessCode: string): Promise<UserInfos> {
@@ -47,5 +50,6 @@ export async function getUserInfos(accessCode: string): Promise<UserInfos> {
     }
   })
   const user = await userResponse.json()
+  console.log(user)
   return { username: user.displayName, email: user.mail };
 }
