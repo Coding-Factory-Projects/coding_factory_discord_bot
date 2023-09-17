@@ -10,7 +10,7 @@ type UserInfos = {
 const defaultScopes = ["user.read", "mail.read"];
 
 export function createMicrosoftUrl(discordUserId: string): string {
-  const url = new URL("https://login.microsoftonline.com/common/oauth2/v2.0/authorize")
+  const url = new URL("https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize")
   url.searchParams.append("response_type", "code")
   url.searchParams.append("client_id", clientId)
   url.searchParams.append("redirect_uri", redirect)
@@ -30,7 +30,7 @@ async function getAccessToken(accessCode: string): Promise<string> {
   body.append("client_secret", clientSecret)
   body.append("redirect_uri", redirect)
 
-  const response = await fetch("https://login.microsoftonline.com/common/oauth2/v2.0/token", {
+  const response = await fetch("https://login.microsoftonline.com/organizations/oauth2/v2.0/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
