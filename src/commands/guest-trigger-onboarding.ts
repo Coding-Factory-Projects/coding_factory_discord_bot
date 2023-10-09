@@ -1,10 +1,8 @@
-import { SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
-import { CommandInteractionOptionResolver, MessageActionRow, MessageButton, MessageComponentInteraction } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { ContextMenuInteraction, MessageComponentInteraction } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 import { adminRoleId, guestRoleId } from "./../configs/discord-config";
-import { createGoogleUrl } from "./../connectors/google-connector";
-import { createMicrosoftUrl } from "./../connectors/microsoft-connector";
 import { sendEmail } from "connectors/mail-connector";
 
 const onboardCommand: ICommand = {
@@ -18,7 +16,7 @@ const onboardCommand: ICommand = {
         .setDescription("Ton adresse email etiduante")
         .setRequired(true))
     .setDescription("Envoie le même message que lorsqu'un utilisateur rejoint le serveur"),
-  execute: async (interaction: any) => {
+  execute: async (interaction: MessageComponentInteraction & ContextMenuInteraction) => {
     logger.info(`Trigerring onboarding for ${interaction.user.username}`);
 
     try {
