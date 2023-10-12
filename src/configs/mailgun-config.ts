@@ -1,4 +1,4 @@
-const { mailgun_api_url, mailgun_domain } = process.env;
+const { mailgun_api_key, mailgun_domain } = process.env;
 
-export { mailgun_api_url, mailgun_domain };
+export { mailgun_api_key, mailgun_domain };
 

@@ -12,6 +12,16 @@ app.use("/assets", express.static("assets"));
 
 app.set("view engine", "ejs");
 
+app.get("/", async (request: express.Request, response: express.Response) => {
+  try {
+    const { username, email } = await getUserInfos(request.query.code as string);
+    response.render("index", { username, email: request.query.email as string });
+  } catch (e) {
+    logger.error(JSON.stringify(e));
+    response.render("error");
+  }
+})
+
 app.get("/oauth2/redirect", async (request: express.Request, response: express.Response) => {
   try {
     const { username, email } = await getUserInfos(request.query.code as string);
@@ -101,9 +111,10 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     return;
   }
 
-  const { userId, fullname, email } = request.body;
+  const { userId, email } = request.body;
 
-  const emailDomain = email.split("@")[1];
+  const splittedEmail = email.split("@") 
+  const emailDomain = splittedEmail[1];
   const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
   if (!isValidEmailDomain) {
     response
@@ -111,6 +122,9 @@ app.post("/change-status", async (request: express.Request, response: express.Re
       .json({ success: false, message: "Veuillez utiliser une adresse email edu.itescia.fr ou edu.esiee-it.fr." });
     return;
   }
+
+  // Extract the user's full name from the email
+  const fullname = splittedEmail[0].replaceAll(".", " ")
 
   try {
     const user = await guild.members.fetch(userId);
