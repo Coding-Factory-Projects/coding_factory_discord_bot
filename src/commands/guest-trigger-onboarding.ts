@@ -25,7 +25,17 @@ const onboardCommand: ICommand = {
 
       const email = interaction.options.getString("mail_etudiant");
 
-      // TODO: Check the email (at least the domain)
+      // Check the email (at least the domain)
+      const splittedEmail = email.split("@") 
+      const emailDomain = splittedEmail[1];
+      const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
+      if (!isValidEmailDomain) {
+        await interaction.reply({
+          content: "Vous devez utiliser un email edu.itescia.fr ou edu.esiee-it.fr !",
+          ephemeral: true
+        })
+        return;
+      }
 
       const url = `${process.env.website_base_url}/?discord_id=${guildMember.user.id}&email=${email}`
 
