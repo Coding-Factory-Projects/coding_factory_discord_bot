@@ -27,7 +27,7 @@ const onboardCommand: ICommand = {
 
       // TODO: Check the email (at least the domain)
 
-      const url = `${process.env.website_url}/?discord_id=${guildMember.user.id}&email=${email}`
+      const url = `${process.env.website_base_url}/?discord_id=${guildMember.user.id}&email=${email}`
 
       // Send the email with the url
       await sendEmail(url, email);

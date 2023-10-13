@@ -1,4 +1,5 @@
 import * as express from "express";
+import {format_user_name} from "../helpers/string"
 import { logger } from "./../loggers/logger";
 import { getUserInfos } from "./../connectors/google-connector";
 import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
@@ -14,8 +15,7 @@ app.set("view engine", "ejs");
 
 app.get("/", async (request: express.Request, response: express.Response) => {
   try {
-    const { username, email } = await getUserInfos(request.query.code as string);
-    response.render("index", { username, email: request.query.email as string });
+    response.render("index", { email: request.query.email as string });
   } catch (e) {
     logger.error(JSON.stringify(e));
     response.render("error");
@@ -124,7 +124,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
   }
 
   // Extract the user's full name from the email
-  const fullname = splittedEmail[0].replaceAll(".", " ")
+  const fullname = format_user_name(splittedEmail[0].replaceAll(".", " "))
 
   try {
     const user = await guild.members.fetch(userId);
