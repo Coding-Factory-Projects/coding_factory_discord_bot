@@ -9,7 +9,7 @@ const deleteCategoryCommand: ICommand = {
   roles: [adminRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("deletecategory")
-    .setDescription("Supprime la catégorie spécifiée et toous les canaux contenus à l'intérieur")
+    .setDescription("Supprime la catégorie spécifiée et tous les canaux contenus à l'intérieur")
     .addStringOption((option) =>
       option.setName("channel-id").setDescription("L'identifiant de la catégorie à supprimer").setRequired(true)
     ),

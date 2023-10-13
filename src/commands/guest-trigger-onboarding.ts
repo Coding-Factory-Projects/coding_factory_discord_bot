@@ -13,7 +13,7 @@ const onboardCommand: ICommand = {
     .addStringOption(
       (option) => option
         .setName("mail_etudiant")
-        .setDescription("Ton adresse email etiduante")
+        .setDescription("Ton adresse email etudiante")
         .setRequired(true))
     .setDescription("Envoie le même message que lorsqu'un utilisateur rejoint le serveur"),
   execute: async (interaction: MessageComponentInteraction & ContextMenuInteraction) => {
