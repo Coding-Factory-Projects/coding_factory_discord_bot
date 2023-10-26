@@ -129,6 +129,9 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     // Send the discord id to the admin
     const updateResponse = await fetch(`${process.env.admin_url}/promotions/students`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         email,
         discord_id: userId,
@@ -142,6 +145,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
 
     response.json({ success: true });
   } catch (e) {
+    logger.error(e)
     response.status(403).json({ success: false, message: "Permissions insuffisantes" });
   }
 });

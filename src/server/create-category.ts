@@ -12,15 +12,15 @@ const createCategory = async (guild:Guild,name:string, promotionCampus:string) =
       mentionable: true,
     });
 
-    logger.info(`Creating the category for the role: ${role}`);
+    logger.info(`Creating the category for the role: ${role.name}`);
     // Create the category
     const createdCategory = await guild.channels.create(role.name, {
       type: 4,
       permissionOverwrites: [
-        {
-          id: everyoneRoleId,
-          deny: [Permissions.FLAGS.VIEW_CHANNEL],
-        },
+        // {
+        //   id: everyoneRoleId,
+        //   deny: [Permissions.FLAGS.VIEW_CHANNEL],
+        // },
         {
           id: productOwnersRoleId,
           allow: [Permissions.FLAGS.VIEW_CHANNEL],
