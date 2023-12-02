@@ -139,9 +139,14 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     });
     const updatedUser = await updateResponse.json();
 
+    const promotionRole = guild.roles.cache.get(updatedUser.promotion.discord_role_id)
+
     await user.setNickname(`${updatedUser.firstName} ${updatedUser.lastName.toUpperCase()}`);
     await user.roles.add(role);
+    await user.roles.add(promotionRole);
     await user.roles.remove(guestRole);
+
+    logger.info(`Les permissions de l'utilisateur ${userId} ont été mises à jour`);
 
     response.json({ success: true });
   } catch (e) {
