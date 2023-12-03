@@ -113,7 +113,7 @@ app.post("/change-status", async (request: express.Request, response: express.Re
 
   const { userId, email } = request.body;
 
-  const splittedEmail = email.split("@") 
+  const splittedEmail = email.split("@");
   const emailDomain = splittedEmail[1];
   const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
   if (!isValidEmailDomain) {
@@ -123,17 +123,34 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     return;
   }
 
-  // Extract the user's full name from the email
-  const fullname = format_user_name(splittedEmail[0].replaceAll(".", " "))
-
   try {
     const user = await guild.members.fetch(userId);
-    await user.setNickname(fullname);
+
+    // Send the discord id to the admin
+    const updateResponse = await fetch(`${process.env.admin_url}/promotions/students`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        discord_id: userId,
+      }),
+    });
+    const updatedUser = await updateResponse.json();
+
+    const promotionRole = guild.roles.cache.get(updatedUser.promotion.discord_role_id)
+
+    await user.setNickname(`${updatedUser.firstName} ${updatedUser.lastName.toUpperCase()}`);
     await user.roles.add(role);
+    await user.roles.add(promotionRole);
     await user.roles.remove(guestRole);
+
+    logger.info(`Les permissions de l'utilisateur ${userId} ont été mises à jour`);
 
     response.json({ success: true });
   } catch (e) {
+    logger.error(e)
     response.status(403).json({ success: false, message: "Permissions insuffisantes" });
   }
 });
