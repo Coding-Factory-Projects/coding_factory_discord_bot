@@ -1,12 +1,13 @@
 import { Guild, Permissions } from "discord.js";
 import { logger } from "./../loggers/logger";
-import { productOwnersRoleId, channels } from "./../configs/channels.json";
+import { channels } from "./../configs/channels.json";
+import { everyoneRoleId, productOwnersRoleId } from "./../configs/discord-config";
 
-const createCategory = async (guild:Guild,name:string, promotionCampus:string) => {
+const createCategory = async (guild: Guild, name: string, promotionCampus: string) => {
   logger.info("Creating all the channels...");
   try {
     const role = await guild.roles.create({
-      name:name + ' - ' + promotionCampus,
+      name: name + " - " + promotionCampus,
       hoist: true,
       reason: "import promotions",
       mentionable: true,
@@ -42,7 +43,7 @@ const createCategory = async (guild:Guild,name:string, promotionCampus:string) =
     logger.info("All the categories are now created !");
     return role.id;
   } catch (e) {
-    console.log(e)
+    console.log(e);
     logger.error(JSON.stringify(e));
     return 0;
   }
