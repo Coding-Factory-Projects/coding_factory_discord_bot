@@ -1,4 +1,5 @@
 import * as express from "express";
+import fetch from "node-fetch";
 import {format_user_name} from "../helpers/string"
 import { logger } from "./../loggers/logger";
 import { getUserInfos } from "./../connectors/google-connector";
