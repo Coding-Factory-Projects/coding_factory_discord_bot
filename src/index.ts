@@ -26,7 +26,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   const userRoles: Map<string, unknown> = (interaction.member.roles as GuildMemberRoleManager).cache;
-  const canLaunchCommand = !command.roles.every((commandRoleId) => userRoles.has(commandRoleId));
+  const canLaunchCommand = !command.roles.some((commandRoleId) => userRoles.has(commandRoleId));
   if (canLaunchCommand) {
     await interaction.reply("Tu n'as pas les rôles requis pour lancer cette commande !");
     return;
