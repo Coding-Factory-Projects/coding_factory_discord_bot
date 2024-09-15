@@ -2,12 +2,12 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { ContextMenuInteraction, MessageComponentInteraction } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
-import { adminRoleId, guestRoleId } from "./../configs/discord-config";
+import { adminRoleId, guestRoleId, baseRoleId } from "./../configs/discord-config";
 import { sendEmail } from "./../connectors/mail-connector";
 
 const onboardCommand: ICommand = {
   name: "onboard",
-  roles: [guestRoleId],
+  roles: [guestRoleId, baseRoleId],
   commandBuilder: new SlashCommandBuilder()
     .setName("onboard")
     .addStringOption(
