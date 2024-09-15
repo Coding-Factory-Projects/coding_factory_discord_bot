@@ -44,7 +44,7 @@
       const response = await fetch(`/change-status`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userId, fullname: "<%= username %>", email: "<%= email %>" })
+        body: JSON.stringify({ userId: userId, email: "<%= email %>" })
       });
       const json = await response.json();
       
@@ -61,7 +61,7 @@
       message.innerText = json.message;
     }
 
-    changeUserStatus(params.get("state"))
+    changeUserStatus(params.get("discord_id"))
   </script>
 </body>
 </html>

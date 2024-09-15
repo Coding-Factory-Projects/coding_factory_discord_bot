@@ -1,14 +1,27 @@
 import * as express from "express";
+import fetch from "node-fetch";
+import {format_user_name} from "../helpers/string"
 import { logger } from "./../loggers/logger";
 import { getUserInfos } from "./../connectors/google-connector";
 import { guildId, baseRoleId, guestRoleId } from "../configs/discord-config";
 import client from "./../discord-client";
+import archivePromo from "./archive-promo";
+import createCategory from "./create-category";
 
 const app = express();
 app.use(express.json());
 app.use("/assets", express.static("assets"));
 
 app.set("view engine", "ejs");
+
+app.get("/", async (request: express.Request, response: express.Response) => {
+  try {
+    response.render("index", { email: request.query.email as string });
+  } catch (e) {
+    logger.error(JSON.stringify(e));
+    response.render("error");
+  }
+})
 
 app.get("/oauth2/redirect", async (request: express.Request, response: express.Response) => {
   try {
@@ -18,6 +31,71 @@ app.get("/oauth2/redirect", async (request: express.Request, response: express.R
     logger.error(JSON.stringify(e));
     response.render("error");
   }
+});
+
+app.post("/on-promotion-created", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  const body = await request.body;
+  const promotionName = body.name;
+  const promotionCampus = body.campus;
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+  const roleId = await createCategory(guild, promotionName,promotionCampus)
+
+  response.status(200).json({
+    message: "La promotion a bien été créée",
+    roleId: roleId,
+  });
+});
+
+app.post("/on-promotion-updated", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+
+  response.status(200).json({
+    message: "La promotion a bien été updated",
+  });
+});
+
+app.post("/archive-promotion", async (request: express.Request, response: express.Response) => {
+  const body = await request.body;
+  logger.info(`Body ${JSON.stringify(body)}`);
+  const roleId = body.roleId;
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    logger.error("Guild not found");
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+  const role = await guild.roles.fetch(roleId);
+  if (!role) {
+    logger.error("Role not found");
+    response.status(404).json({ success: false, message: "Le role spécifié n'existe pas" });
+    return;
+  }
+  logger.info("Role found");
+  await archivePromo(guild, role);
+
+  response.status(200).json({
+    message: "La promotion a bien été archivée",
+  });
+});
+
+app.post("/next-year", async (request: express.Request, response: express.Response) => {
+  const guild = await client.guilds.fetch(guildId);
+  if (!guild) {
+    response.status(404).json({ success: false, message: "Le serveur spécifié n'existe pas" });
+    return;
+  }
+
+  response.status(200).json({
+    message: "Le passage à la nouvelle année à été effectué",
+  });
 });
 
 app.post("/change-status", async (request: express.Request, response: express.Response) => {
@@ -34,9 +112,10 @@ app.post("/change-status", async (request: express.Request, response: express.Re
     return;
   }
 
-  const { userId, fullname, email } = request.body;
+  const { userId, email } = request.body;
 
-  const emailDomain = email.split("@")[1];
+  const splittedEmail = email.split("@");
+  const emailDomain = splittedEmail[1];
   const isValidEmailDomain = ["edu.itescia.fr", "edu.esiee-it.fr"].includes(emailDomain);
   if (!isValidEmailDomain) {
     response
@@ -47,17 +126,37 @@ app.post("/change-status", async (request: express.Request, response: express.Re
 
   try {
     const user = await guild.members.fetch(userId);
-    await user.setNickname(fullname);
+
+    // Send the discord id to the admin
+    const updateResponse = await fetch(`${process.env.admin_url}/promotions/students`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        discord_id: userId,
+      }),
+    });
+    const updatedUser = await updateResponse.json();
+
+    const promotionRole = guild.roles.cache.get(updatedUser.promotion.discord_role_id)
+
+    await user.setNickname(`${updatedUser.firstName} ${updatedUser.lastName.toUpperCase()}`);
     await user.roles.add(role);
+    await user.roles.add(promotionRole);
     await user.roles.remove(guestRole);
+
+    logger.info(`Les permissions de l'utilisateur ${userId} ont été mises à jour`);
 
     response.json({ success: true });
   } catch (e) {
+    logger.error(e)
     response.status(403).json({ success: false, message: "Permissions insuffisantes" });
   }
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.server_port || 3000;
 app.listen(port, () => {
   logger.info(`The web server started on port ${port}`);
 });
