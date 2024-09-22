@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageComponentInteraction, Permissions } from "discord.js";
+import { MessageComponentInteraction, CommandInteraction, Permissions } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
 import { everyoneRoleId, productOwnersRoleId, channels } from "./../configs/channels.json";
@@ -14,14 +14,14 @@ const createCategoryCommand: ICommand = {
     .addStringOption((option) =>
       option.setName("name").setDescription("Nom de la catégorie").setRequired(true)
     ),
-  execute: async (interaction: MessageComponentInteraction) => {
+  execute: async (interaction: CommandInteraction) => {
     logger.info("Creating all the channels...");
     await interaction.reply("Création des channels...");
     try {
-      const categoryId = interaction.options.getString("name");
-      logger.info(`Creating the category "${role.role}"`);
+      const categoryName = interaction.options.getString("name");
+      logger.info(`Creating the category "${categoryName}"`);
       // Create the category
-      const createdCategory = await interaction.guild.channels.create(role.role, {
+      const createdCategory = await interaction.guild.channels.create(categoryName, {
         type: 4,
         permissionOverwrites: [
           {
@@ -30,10 +30,6 @@ const createCategoryCommand: ICommand = {
           },
           {
             id: productOwnersRoleId,
-            allow: [Permissions.FLAGS.VIEW_CHANNEL],
-          },
-          {
-            id: role.id,
             allow: [Permissions.FLAGS.VIEW_CHANNEL],
           },
         ],
@@ -47,7 +43,7 @@ const createCategoryCommand: ICommand = {
         else if (channel.type === "voice")
           await interaction.guild.channels.create(channel.name, { type: 2, parent: createdCategory.id });
       }
-      logger.info(`All the channels are created for the category ${role.role}`);
+      logger.info(`All the channels are created for the category ${categoryName}`);
 
       await interaction.editReply("Les catégories viennent d'être créés");
       logger.info("All the categories are now created !");
