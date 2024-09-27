@@ -2,8 +2,9 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageComponentInteraction, Permissions } from "discord.js";
 import { ICommand } from "ICommand";
 import { logger } from "./../loggers/logger";
-import { everyoneRoleId, productOwnersRoleId, roles, channels } from "./../configs/channels.json";
+import { roles, channels } from "./../configs/channels.json";
 import { adminRoleId } from "./../configs/discord-config";
+import { everyoneRoleId, productOwnersRoleId } from "./../configs/discord-config";
 
 const createCategoryCommand: ICommand = {
   name: "createcategories",
